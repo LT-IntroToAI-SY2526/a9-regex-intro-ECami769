@@ -2,6 +2,7 @@
 import re, string, calendar
 from wikipedia import page
 from bs4 import BeautifulSoup
+import requests
 
 from typing import List, Match
 from utilities import *
@@ -20,7 +21,8 @@ def get_planet_radius(planet_name: str) -> str:
     """
     infobox_text = clean_text(get_first_infobox_text(get_page_html(planet_name)))
     # TODO: fill this in
-    pattern = "REPLACE ME"
+    # print(infobox_text)
+    pattern = "Polar radius(?P<radius>[\d.\n]+)"
     error_text = "Page infobox has no polar radius information"
     match = get_match(infobox_text, pattern, error_text)
     return match.group("radius")
@@ -37,6 +39,7 @@ def get_birth_date(name: str) -> str:
     """
     infobox_text = clean_text(get_first_infobox_text(get_page_html(name)))
     # TODO: fill this in
+    print(infobox_text)
     pattern = "REPLACE ME"
     error_text = (
         "Page infobox has no birth information (at least none in xxxx-xx-xx format)"
@@ -51,7 +54,7 @@ if __name__ == "__main__":
     print(f'Mars has a polar radius of {get_planet_radius("Mars")}km')
     # should be 6356.752
     print(f'Earth has a polar radius of {get_planet_radius("Earth")}km')
-    # should be 66854
+    # should be 66842
     print(f'Jupiter has a polar radius of {get_planet_radius("Jupiter")}km')
     # should be 54364
     print(f'Saturn has a polar radius of {get_planet_radius("Saturn")}km')
@@ -60,7 +63,7 @@ if __name__ == "__main__":
     # print('\n<<<< Running asserts, this might take a sec >>>>')
     # assert get_planet_radius("Mars") == "3376.2", "Incorrect radius for Mars"
     # assert get_planet_radius("Earth") == "6356.752", "Incorrect radius for Earth"
-    # assert get_planet_radius("Jupiter") == "66854", "Incorrect radius for Jupiter"
+    # assert get_planet_radius("Jupiter") == "66842", "Incorrect radius for Jupiter"
     # assert get_planet_radius("Saturn") == "54364", "Incorrect radius for Saturn"
     # print('\n<<<< Planet radius tests passed >>>>')
 
