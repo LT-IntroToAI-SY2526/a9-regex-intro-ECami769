@@ -1,13 +1,28 @@
 # some python libraries we'll be using
 import re, string, calendar
-from wikipedia import page
 from bs4 import BeautifulSoup
 import requests
+
+
 
 from typing import List, Match
 from utilities import *
 
 # Assignment 8 Part II
+
+def get_page_html(title: str) -> str:
+    response = requests.get(
+        "https://en.wikipedia.org/w/api.php&quot;,"
+        params={
+            "action": "parse",
+            "page": title,
+            "prop": "text",
+            "format": "json",
+        },
+        headers={"User-Agent": "intro-ai-class/1.0"}
+    )
+    data = response.json()
+    return data["parse"]["text"]["*"]
 
 
 def get_planet_radius(planet_name: str) -> str:
@@ -40,7 +55,7 @@ def get_birth_date(name: str) -> str:
     infobox_text = clean_text(get_first_infobox_text(get_page_html(name)))
     # TODO: fill this in
     print(infobox_text)
-    pattern = "REPLACE ME"
+    pattern = "(?P<birth>\d{4})"
     error_text = (
         "Page infobox has no birth information (at least none in xxxx-xx-xx format)"
     )
